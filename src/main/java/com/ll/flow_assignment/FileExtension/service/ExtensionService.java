@@ -13,9 +13,13 @@ public class ExtensionService {
     private ExtensionRepository extensionRepository;
 
     public void add(String extension, boolean isChecked, boolean isCustom) {
-        if (extension.length() <= 20) {
+        if (extension.length() <= 20 && !exists(extension)) {
             Extension newExtension = new Extension(extension, isChecked, isCustom);
             extensionRepository.save(newExtension);
         }
+    }
+
+    public boolean exists(String extension) {
+        return extensionRepository.findByExtension(extension).isPresent();
     }
 }
