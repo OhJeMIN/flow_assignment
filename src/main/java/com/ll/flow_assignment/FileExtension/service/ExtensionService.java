@@ -40,6 +40,8 @@ public class ExtensionService {
         Optional<Extension> existingExtension = extensionRepository.findByExtension(extension);
         if (existingExtension.isPresent()) {
             extensionRepository.delete(existingExtension.get());
+        } else {
+            throw new IllegalArgumentException("확장자를 찾을 수 없습니다: " + extension);
         }
     }
 
