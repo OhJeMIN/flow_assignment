@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>파일 확장자 관리</title>
+    <style>
+        .extension-list {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .extension-list label {
+            margin-right: 10px; /* 레이블 간격 조정 */
+        }
+
+        .custom-extensions-container {
+            border: 1px solid #ccc; /* 테두리 스타일 */
+            padding: 10px; /* 안쪽 여백 */
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto; /* 내용이 넘칠 경우 스크롤바 표시 */
+        }
+    </style>
+</head>
+<body>
+<hr>
+<h1>파일 확장자 차단</h1>
+<hr>
+<!-- 고정 확장자 리스트 -->
+<div>
+    <h3>고정 확장자</h3>
+    <form th:action="@{/update}" method="post">
+        <div class="extension-list" th:each="fixedExt : ${fixedExtensions}">
+            <input type="checkbox" th:id="${fixedExt.extension}" th:name="extensions" th:value="${fixedExt.extension}"
+                   th:checked="${fixedExt.checked}"/>
+            <label th:for="${fixedExt.extension}" th:text="${fixedExt.extension}">.ext</label>
+        </div>
+        <button type="submit">저장</button>
+    </form>
+</div>
+
+<!-- 커스텀 확장자 입력 및 리스트 -->
+<div>
+    <h3>커스텀 확장자</h3>
+    <form th:action="@{/addCustom}" method="post">
+        <input type="text" name="customExtension" maxlength="20" placeholder="확장자 입력"/>
+        <button type="submit">추가</button>
+    </form>
+    <div class="custom-extensions-container">
+        <p th:text="${customExtensions.size()} + '/200'"></p>
+        <div th:each="customExt, iterStat : ${customExtensions}" class="custom-extension">
+            <span th:text="${customExt.extension}">.sh</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
