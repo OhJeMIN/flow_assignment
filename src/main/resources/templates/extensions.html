@@ -62,10 +62,22 @@
             form.addEventListener("submit", function(e) {
                 e.preventDefault();
                 var extension = document.querySelector('input[name="customExtension"]').value;
+                if (!extension) {
+                    alert('확장자를 입력해 주세요.');
+                    return;
+                }
+
                 var data = {
                     customExtension: extension,
                     checked: true
                 };
+
+                var maxExtensions = [[${customExtensions.size()}]];
+                if (parseInt(maxExtensions) >= 200) {
+                    alert('확장자는 최대 200개까지만 추가할 수 있습니다.');
+                    return;
+                }
+
                 fetch('/addCustom', {
                     method: 'POST',
                     headers: {
