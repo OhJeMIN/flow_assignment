@@ -14,23 +14,40 @@
         }
 
         .custom-extensions-container {
-            border: 1px solid #ccc; /* 테두리 스타일 */
-            padding: 10px; /* 안쪽 여백 */
+            border: 1px solid #000000;
+            padding: 10px;
             margin-top: 10px;
             max-height: 150px;
-            overflow-y: auto; /* 내용이 넘칠 경우 스크롤바 표시 */
+            overflow-y: auto;
+            border-radius: 4px;
+        }
+
+        .custom-extension {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #000000;
+            margin: 2px;
+            border-radius: 4px;
+        }
+
+        .custom-extension button {
+            background: none; /* 기본 버튼 배경 없애기 */
+            border: none; /* 기본 버튼 경계선 없애기 */
+            cursor: pointer; /* 마우스 오버 시 커서 모양 변경 */
         }
     </style>
     <script th:inline="javascript">
         function updateExtensionStatus(checkbox) {
-            var extension = checkbox.dataset.extension; // 확장자 이름을 데이터 속성에서 가져옴
-            var checked = checkbox.checked; // 체크박스의 상태를 가져옴
+            var data = {
+                extension: checkbox.dataset.extension, // 확장자 이름을 데이터 속성에서 가져옴
+                checked: checkbox.checked // 체크박스의 상태를 가져옴
+            };
             fetch('/update', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ extension: extension, checked: checked })
+                body: JSON.stringify(data)
             })
                 .then(response => response.json())
                 .then(data => {
@@ -49,7 +66,6 @@
                     customExtension: extension,
                     checked: true
                 };
-
                 fetch('/addCustom', {
                     method: 'POST',
                     headers: {
@@ -57,16 +73,36 @@
                     },
                     body: JSON.stringify(data)
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
-                        location.reload();
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Success');
+                            location.reload();
+                        } else {
+                            console.error('Server responded with status:', response.status);
+                        }
                     })
                     .catch((error) => {
                         console.error('Error:', error);
                     });
             });
         });
+        function removeCustomExtension(button) {
+            var extension = button.getAttribute('data-extension');
+            fetch('/deleteCustom/' + encodeURIComponent(extension), {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        button.parentNode.remove();
+                    } else {
+                        alert('삭제할 대상이 없습니다.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('삭제중 에러가 발생했습니다.');
+                });
+        }
     </script>
 </head>
 <body>
@@ -95,7 +131,9 @@
     <div class="custom-extensions-container">
         <p th:text="${customExtensions.size()} + '/200'"></p>
         <div th:each="customExt, iterStat : ${customExtensions}" class="custom-extension">
-            <span th:text="${customExt.extension}"></span>
+            <span th:text="${customExt.extension}">.sh</span>
+            <button type="button" th:data-extension="${customExt.extension}" onclick="removeCustomExtension(this)">X</button>
+        </div>
         </div>
     </div>
 </div>
