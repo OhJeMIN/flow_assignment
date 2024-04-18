@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ExtensionRepository extends JpaRepository<Extension, Long> {
-    Optional<Object> findByExtension(String extension);
-
+    Optional<Extension> findByExtension(String extension);
     List<Extension> findByCustom(boolean custom);
 }

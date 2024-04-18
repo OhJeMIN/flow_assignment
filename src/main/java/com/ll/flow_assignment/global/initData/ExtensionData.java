@@ -14,7 +14,7 @@ public class ExtensionData {
         return args -> {
             String[] extensions = {"bat", "cmd", "com", "cpl", "exe", "scr", "js"};
             for (String extension : extensions) {
-                extensionService.add(extension, false, false);
+                extensionService.initData(extension, false, false);
             }
         };
     }

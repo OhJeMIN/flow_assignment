@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,10 +14,32 @@ public class ExtensionService {
 
     private final ExtensionRepository extensionRepository;
 
-    public void add(String extension, boolean Checked, boolean Custom) {
-        if (extension.length() <= 20 && !exists(extension)) {
-            Extension newExtension = new Extension(extension,Checked,Custom);
+    public void initData(String extension, boolean checked, boolean custom) {
+        if (!exists(extension)) {
+            Extension newExtension = new Extension(extension,checked,custom);
             extensionRepository.save(newExtension);
+        }
+    }
+
+    public void addCustom(String extension, boolean checked) {
+        if (extension.length() <= 20 && !exists(extension)) {
+            Extension newExtension = new Extension(extension,checked,true);
+            extensionRepository.save(newExtension);
+        }
+    }
+
+    public void update(String extension, boolean checked) {
+        Optional<Extension> existingExtension = extensionRepository.findByExtension(extension);
+        if (existingExtension.isPresent()) {
+            Extension updatedExtension = existingExtension.get();
+            updatedExtension.setChecked(checked);
+            extensionRepository.save(updatedExtension);
+        }
+    }
+    public void delete(String extension) {
+        Optional<Extension> existingExtension = extensionRepository.findByExtension(extension);
+        if (existingExtension.isPresent()) {
+            extensionRepository.delete(existingExtension.get());
         }
     }
 
