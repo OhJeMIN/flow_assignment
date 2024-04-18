@@ -1,7 +1,6 @@
 package com.ll.flow_assignment.FileExtension.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Extension {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,12 +18,15 @@ public class Extension {
     @Column(length = 20, unique = true)
     private String extension;
 
-    @Column(name = "is_checked")
-    private boolean isChecked;
+    @Column(name = "checked")
+    private boolean checked;
 
-    @Column(name = "is_custom")
-    private boolean isCustom;
+    @Column(name = "custom")
+    private boolean custom;
 
-    public Extension(String extension, boolean isChecked, boolean isCustom) {
+    public Extension(String extension, boolean Checked, boolean Custom) {
+        this.extension = extension;
+        this.checked = Checked;
+        this.custom = Custom;
     }
 }
