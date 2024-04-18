@@ -21,11 +21,16 @@ public class ExtensionService {
         }
     }
 
-    public void addCustom(String extension, boolean checked) {
-        if (extension.length() <= 20 && !exists(extension)) {
-            Extension newExtension = new Extension(extension,checked,true);
-            extensionRepository.save(newExtension);
+    public boolean addCustom(String extension, boolean checked) {
+        if (extension.length() > 20) {
+            throw new IllegalArgumentException("확장자 길이가 20자리 이상입니다.");
         }
+        if (exists(extension)) {
+            return true;
+        }
+        Extension newExtension = new Extension(extension, checked, true);
+        extensionRepository.save(newExtension);
+        return false;
     }
 
     public void update(String extension, boolean checked) {

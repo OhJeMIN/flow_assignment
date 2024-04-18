@@ -89,6 +89,8 @@
                         if (response.ok) {
                             console.log('Success');
                             location.reload();
+                        } else if (response.status === 409) {
+                            alert('이미 존재하는 확장자입니다.');
                         } else {
                             console.error('Server responded with status:', response.status);
                         }
