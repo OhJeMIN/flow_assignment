@@ -30,4 +30,12 @@ public class ExtensionController {
         extensionService.update(extension, checked);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/addCustom")
+    public ResponseEntity<?> addCustomExtension(@RequestBody Map<String, Object> payload) {
+        String extension = (String) payload.get("customExtension");
+        boolean checked = (Boolean) payload.get("checked");
+        extensionService.addCustom(extension, checked);
+        return ResponseEntity.ok().build();
+    }
 }

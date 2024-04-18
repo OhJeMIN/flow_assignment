@@ -40,6 +40,33 @@
                     console.error('Error:', error);
                 });
         }
+        document.addEventListener("DOMContentLoaded", function() {
+            var form = document.querySelector("form");
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
+                var extension = document.querySelector('input[name="customExtension"]').value;
+                var data = {
+                    customExtension: extension,
+                    checked: true
+                };
+
+                fetch('/addCustom', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        location.reload();
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
     </script>
 </head>
 <body>
@@ -68,7 +95,7 @@
     <div class="custom-extensions-container">
         <p th:text="${customExtensions.size()} + '/200'"></p>
         <div th:each="customExt, iterStat : ${customExtensions}" class="custom-extension">
-            <span th:text="${customExt.extension}">.sh</span>
+            <span th:text="${customExt.extension}"></span>
         </div>
     </div>
 </div>
