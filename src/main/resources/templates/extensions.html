@@ -108,6 +108,10 @@
                 .then(response => {
                     if (response.ok) {
                         button.parentNode.remove();
+                        var countElement = document.getElementById('extensionCount');
+                        var currentCount = parseInt(countElement.textContent.split('/')[0]);
+                        var newCount = currentCount - 1;
+                        countElement.textContent = newCount + '/200';
                     } else {
                         alert('삭제할 대상이 없습니다.');
                     }
@@ -143,7 +147,7 @@
         <button type="submit">추가</button>
     </form>
     <div class="custom-extensions-container">
-        <p th:text="${customExtensions.size()} + '/200'"></p>
+        <p id="extensionCount" th:text="${customExtensions.size()} + '/200'"></p>
         <div th:each="customExt, iterStat : ${customExtensions}" class="custom-extension">
             <span th:text="${customExt.extension}">.sh</span>
             <button type="button" th:data-extension="${customExt.extension}" onclick="removeCustomExtension(this)">X</button>
