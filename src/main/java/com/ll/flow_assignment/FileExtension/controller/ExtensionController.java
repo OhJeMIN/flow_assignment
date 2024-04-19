@@ -1,5 +1,7 @@
 package com.ll.flow_assignment.FileExtension.controller;
 
+import com.ll.flow_assignment.FileExtension.dto.CustomExtensionRequestDto;
+import com.ll.flow_assignment.FileExtension.dto.ExtensionUpdateRequestDto;
 import com.ll.flow_assignment.FileExtension.service.ExtensionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -7,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,18 +23,14 @@ public class ExtensionController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateExtensionStatus(@RequestBody Map<String, Object> payload) {
-        String extension = (String) payload.get("extension");
-        boolean checked = (Boolean) payload.get("checked");
-        extensionService.update(extension, checked);
+    public ResponseEntity<?> updateExtensionStatus(@RequestBody ExtensionUpdateRequestDto dto) {
+        extensionService.update(dto.getExtension(), dto.isChecked());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/addCustom")
-    public ResponseEntity<?> addCustomExtension(@RequestBody Map<String, Object> payload) {
-        String extension = (String) payload.get("customExtension");
-        boolean checked = (Boolean) payload.get("checked");
-        boolean duplication = extensionService.addCustom(extension, checked);
+    public ResponseEntity<?> addCustomExtension(@RequestBody CustomExtensionRequestDto dto) {
+        boolean duplication = extensionService.addCustom(dto.getCustomExtension(), dto.isChecked());
         if (duplication) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("중복된 확장자입니다.");
         }
