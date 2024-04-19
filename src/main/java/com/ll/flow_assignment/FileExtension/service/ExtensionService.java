@@ -25,6 +25,11 @@ public class ExtensionService {
         if (extension.length() > 20) {
             throw new IllegalArgumentException("확장자 길이가 20자리 이상입니다.");
         }
+        // 확장자가 영문자만 포함되어 있는지 검증
+        if (!extension.matches("^[a-zA-Z]+$")) {
+            throw new IllegalArgumentException("확장자는 영문자만 포함할 수 있습니다.");
+        }
+
         if (exists(extension)) {
             return true;
         }

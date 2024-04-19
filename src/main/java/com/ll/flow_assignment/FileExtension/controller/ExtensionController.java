@@ -3,6 +3,7 @@ package com.ll.flow_assignment.FileExtension.controller;
 import com.ll.flow_assignment.FileExtension.dto.CustomExtensionRequestDto;
 import com.ll.flow_assignment.FileExtension.dto.ExtensionUpdateRequestDto;
 import com.ll.flow_assignment.FileExtension.service.ExtensionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class ExtensionController {
     }
 
     @PostMapping("/addCustom")
-    public ResponseEntity<?> addCustomExtension(@RequestBody CustomExtensionRequestDto dto) {
+    public ResponseEntity<?> addCustomExtension(@RequestBody @Valid CustomExtensionRequestDto dto) {
         boolean duplication = extensionService.addCustom(dto.getCustomExtension(), dto.isChecked());
         if (duplication) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("중복된 확장자입니다.");
