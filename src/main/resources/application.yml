@@ -32,3 +32,6 @@ custom:
   site:
     name: flow
     baseUrl: "http://localhost:${server.port}"
+  tempDirPath: c:/temp/flow_test/temp
+  genFile:
+    dirPath: c:/temp/flow_test
