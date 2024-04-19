@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://172.17.0.1:3006/flow_prod
+    username: jemin
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+custom:
+  tempDirPath: /gen/temp
+  site:
+    baseUrl: "https://www.flow.kkan.site"
+  genFile:
+    dirpath: /gen

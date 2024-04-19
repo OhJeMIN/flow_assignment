@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:h2:./db_dev;MODE=MYSQL
+    username: sa
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+custom:
+  site:
+    baseUrl: "http://localhost:8090"

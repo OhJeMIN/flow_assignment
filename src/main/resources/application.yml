@@ -30,5 +30,5 @@ logging:
     org.springframework.transaction.interceptor: TRACE
 custom:
   site:
-    name: flow.assignment
+    name: flow
     baseUrl: "http://localhost:${server.port}"
